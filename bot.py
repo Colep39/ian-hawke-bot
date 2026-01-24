@@ -140,7 +140,11 @@ async def on_message(message: discord.Message):
     TARGET_USER_ID = USER_ID # a certain persons discord ID
     if message.author.id == TARGET_USER_ID:
         if "exam" in content:
-            await message.channel.send("Uh oh 👀")
+            await message.channel.send("Sam will fail his exams lol")
+        if "task" in content:
+            await message.channel.send("Sam is cooked for this task")
+        if "cole" in content:
+            await message.channel.send("Keep my sons name out of your mouth!")
 
 
     await bot.process_commands(message)
