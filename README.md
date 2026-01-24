@@ -1,4 +1,4 @@
-# 🤖 Ian Hawke — Discord Class Bot
+# Ian Hawke — Discord Class Bot
 
 Ian Hawke is a custom Discord bot designed for **class and academic Discord servers**.  
 It provides anonymous announcements, keyword-based responses, and automated reactions to help streamline communication and add personality to class servers.
@@ -7,24 +7,24 @@ Built using **Python** and **discord.py**, the bot is lightweight, secure, and e
 
 ---
 
-## ✨ Features
+## Features
 
-- 🔊 **Anonymous `/say` Slash Command**
+- **Anonymous `/say` Slash Command**
   - Allows admins to make the bot send messages to any channel
   - No attribution — users do not see who issued the command
-- 👀 **Keyword Detection**
+- **Keyword Detection**
   - Watches chat messages for specific keywords
   - Automatically responds with messages or GIFs
-- 🎯 **User-Specific Watching**
+- **User-Specific Watching**
   - Optionally react only to messages from specific users
-- 🛡️ **Admin-Only Controls**
+- **Admin-Only Controls**
   - Sensitive commands can be restricted to administrators
-- 🔐 **Secure Token Handling**
+- **Secure Token Handling**
   - Uses environment variables (`.env`) for safety
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Language:** Python 3.10+
 - **Discord API:** discord.py
@@ -32,7 +32,7 @@ Built using **Python** and **discord.py**, the bot is lightweight, secure, and e
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Clone the Repository
 ```bash
@@ -62,7 +62,7 @@ python bot.py
 ```
 If successful, it should say "Logged in as discord_bot_name"
 
-## 📜 License
+## License
 
 ```text
 Personal Use License
