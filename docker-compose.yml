@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  bot:
+    build: .
+    container_name: ian-hawke
+    env_file:
+      - .env
+    restart: unless-stopped
