@@ -54,13 +54,13 @@ async def on_ready():
 
 
 
-@tasks.loop(hours=24)
+@tasks.loop(hours=167)
 async def daily_reminder():
     channel_id = GENERAL_CHANNEL_ID
     channel = bot.get_channel(channel_id)
 
     if channel:
-        await channel.send("📢 Daily reminder: stay on top of your work!")
+        await channel.send("Daily reminder: stay on top of your work!")
 
 
 # /say command, usable by admins to anonymously send a message to any channel as the one and only Ian Hawke
