@@ -1,9 +1,17 @@
-version: "3.9"
+version: "3.8"
 
 services:
-  bot:
-    build: .
-    container_name: ian-hawke
+  ian-hawke-bot:
+    image: ghcr.io/colep39/ian-hawke-bot:latest
+    container_name: ian-hawke-bot
+    restart: unless-stopped
     env_file:
       - .env
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
     restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --cleanup --interval 300

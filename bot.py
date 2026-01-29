@@ -43,25 +43,11 @@ async def on_ready():
     if not heartbeat.is_running():
         heartbeat.start()
 
-    if not daily_reminder.is_running():
-        daily_reminder.start()
-
     try:
         synced = await bot.tree.sync()
         print(f"Synced {len(synced)} commands")
     except Exception as e:
         print(e)
-
-
-
-@tasks.loop(hours=167)
-async def daily_reminder():
-    channel_id = GENERAL_CHANNEL_ID
-    channel = bot.get_channel(channel_id)
-
-    if channel:
-        await channel.send("Daily reminder: stay on top of your work!")
-
 
 # /say command, usable by admins to anonymously send a message to any channel as the one and only Ian Hawke
 @bot.tree.command(name="say", description="Make Ian Hawke say something anonymously")
@@ -71,7 +57,7 @@ async def daily_reminder():
     channel="Which channel should the message be sent to?"
 )
 async def say(interaction: discord.Interaction, message: str, channel: discord.TextChannel):
-    await interaction.response.send_message("Message sent ✅", ephemeral=True)
+    await interaction.response.send_message("Message sent", ephemeral=True)
     await channel.send(message)
 
 # /addkeyword command, usable by admins to add keyword responses
@@ -84,7 +70,7 @@ async def say(interaction: discord.Interaction, message: str, channel: discord.T
 async def addkeyword(interaction: discord.Interaction, keyword: str, response: str):
     KEYWORD_RESPONSES[keyword.lower()] = response
     await interaction.response.send_message(
-        f"Keyword `{keyword}` added ✅",
+        f"Keyword `{keyword}` added",
         ephemeral=True
     )
 
@@ -96,12 +82,12 @@ async def removekeyword(interaction: discord.Interaction, keyword: str):
 
     if removed:
         await interaction.response.send_message(
-            f"Keyword `{keyword}` removed 🗑️",
+            f"Keyword `{keyword}` removed",
             ephemeral=True
         )
     else:
         await interaction.response.send_message(
-            f"Keyword `{keyword}` not found ❌",
+            f"Keyword `{keyword}` not found",
             ephemeral=True
         )
 
@@ -114,6 +100,7 @@ KEYWORD_RESPONSES = {
     "barnes": "those who John Barnes",
     "follow": "those who follow",
     "everybody follows": "those who follow",
+    "database": "Uma my beloved",
 }
 
 @bot.event
