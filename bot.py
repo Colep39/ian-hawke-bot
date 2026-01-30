@@ -100,7 +100,7 @@ KEYWORD_RESPONSES = {
     "barnes": "those who John Barnes",
     "follow": "those who follow",
     "everybody follows": "those who follow",
-    "database": "Uma my beloved",
+    "database": "Uma my beloved", 
 }
 
 @bot.event
