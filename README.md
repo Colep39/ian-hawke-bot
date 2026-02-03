@@ -19,9 +19,6 @@ Built using **Python** and **discord.py**, the bot is lightweight, secure, and e
   - Optionally react only to messages from specific users
 - **Admin-Only Controls**
   - Sensitive commands can be restricted to administrators
-- **Secure Token Handling**
-  - Uses environment variables (`.env`) for safety
-
 ---
 
 ## Tech Stack
