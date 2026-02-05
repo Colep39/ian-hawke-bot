@@ -6,13 +6,17 @@ from dotenv import load_dotenv
 import time
 import logging
 from discord.ext import tasks
+import datetime
 
 load_dotenv()
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 SERVER_ID = int(os.getenv("AI_SERVER_ID"))
-USER_ID= int(os.getenv("SAM_USER_ID"))
-GENERAL_CHANNEL_ID = int(os.getenv('GENERAL_CHANNEL_ID'))
+USER_ID = int(os.getenv("SAM_USER_ID"))
+GENERAL_CHANNEL_ID = int(os.getenv("GENERAL_CHANNEL_ID"))
+
+BOT_VERSION = "1.2.1"
+START_TIME = datetime.datetime.utcnow()
 
 logging.basicConfig(
     level=logging.INFO,
@@ -33,12 +37,18 @@ COOLDOWN_SECONDS = 30
 async def heartbeat():
     logging.info("Heartbeat: bot is alive")
 
-
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user}")
-
     logging.info("Bot started successfully")
+
+    # Dynamic status showing version
+    await bot.change_presence(
+        activity=discord.Activity(
+            type=discord.ActivityType.watching,
+            name=f"Automata | v{BOT_VERSION}"
+        )
+    )
 
     if not heartbeat.is_running():
         heartbeat.start()
@@ -49,7 +59,7 @@ async def on_ready():
     except Exception as e:
         print(e)
 
-# /say command, usable by admins to anonymously send a message to any channel as the one and only Ian Hawke
+# /say command
 @bot.tree.command(name="say", description="Make Ian Hawke say something anonymously")
 @commands.has_permissions(administrator=True)
 @app_commands.describe(
@@ -60,7 +70,20 @@ async def say(interaction: discord.Interaction, message: str, channel: discord.T
     await interaction.response.send_message("Message sent", ephemeral=True)
     await channel.send(message)
 
-# /addkeyword command, usable by admins to add keyword responses
+# /version command
+@bot.tree.command(name="version", description="Check bot version and uptime")
+async def version(interaction: discord.Interaction):
+    uptime = datetime.datetime.utcnow() - START_TIME
+    uptime_str = str(uptime).split(".")[0]
+
+    await interaction.response.send_message(
+        f"**Ian Hawke**\n"
+        f"Version: `{BOT_VERSION}`\n"
+        f"Uptime: `{uptime_str}`",
+        ephemeral=True
+    )
+
+# /addkeyword command
 @bot.tree.command(name="addkeyword", description="Add a keyword response")
 @commands.has_permissions(administrator=True)
 @app_commands.describe(
@@ -74,6 +97,7 @@ async def addkeyword(interaction: discord.Interaction, keyword: str, response: s
         ephemeral=True
     )
 
+# /removekeyword command
 @bot.tree.command(name="removekeyword", description="Remove a keyword response")
 @commands.has_permissions(administrator=True)
 @app_commands.describe(keyword="Keyword to remove")
@@ -100,7 +124,7 @@ KEYWORD_RESPONSES = {
     "barnes": "those who John Barnes",
     "follow": "those who follow",
     "everybody follows": "those who follow",
-    "database": "Uma my beloved", 
+    "database": "Uma my beloved",
 }
 
 @bot.event
@@ -109,9 +133,9 @@ async def on_message(message: discord.Message):
         return
 
     content = message.content.lower()
-
     current_time = time.time()
 
+    # Keyword responses with cooldown
     for keyword, response in KEYWORD_RESPONSES.items():
         if keyword in content:
             last_used = KEYWORD_COOLDOWNS.get(keyword, 0)
@@ -122,9 +146,9 @@ async def on_message(message: discord.Message):
 
             break
 
-    
-    # example of targeting a specific users message
-    TARGET_USER_ID = USER_ID # a certain persons discord ID
+    # Target specific user responses
+    TARGET_USER_ID = USER_ID
+
     if message.author.id == TARGET_USER_ID:
         if "exam" in content:
             await message.channel.send("Sam will fail his exams lol")
@@ -133,8 +157,6 @@ async def on_message(message: discord.Message):
         if "cole" in content:
             await message.channel.send("Keep my sons name out of your mouth!")
 
-
     await bot.process_commands(message)
-
 
 bot.run(TOKEN)
