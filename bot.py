@@ -8,6 +8,8 @@ import logging
 from discord.ext import tasks
 import datetime
 
+# command that updates live bot: docker compose pull && docker compose up -d --force-recreate
+
 load_dotenv()
 
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -83,6 +85,7 @@ async def version(interaction: discord.Interaction):
         ephemeral=True
     )
 
+
 # /addkeyword command
 @bot.tree.command(name="addkeyword", description="Add a keyword response")
 @commands.has_permissions(administrator=True)
@@ -135,6 +138,18 @@ async def on_message(message: discord.Message):
     content = message.content.lower()
     current_time = time.time()
 
+    # Target specific user responses FIRST
+    if message.author.id == USER_ID:
+        if "exam" in content:
+            await message.channel.send("Sam will fail his exams lol")
+            return
+        if "task" in content:
+            await message.channel.send("Sam is cooked for this task")
+            return
+        if "cole" in content:
+            await message.channel.send("Keep my sons name out of your mouth!")
+            return
+
     # Keyword responses with cooldown
     for keyword, response in KEYWORD_RESPONSES.items():
         if keyword in content:
@@ -144,19 +159,9 @@ async def on_message(message: discord.Message):
                 await message.channel.send(response)
                 KEYWORD_COOLDOWNS[keyword] = current_time
 
-            break
-
-    # Target specific user responses
-    TARGET_USER_ID = USER_ID
-
-    if message.author.id == TARGET_USER_ID:
-        if "exam" in content:
-            await message.channel.send("Sam will fail his exams lol")
-        if "task" in content:
-            await message.channel.send("Sam is cooked for this task")
-        if "cole" in content:
-            await message.channel.send("Keep my sons name out of your mouth!")
+            return  # stop after first match
 
     await bot.process_commands(message)
+
 
 bot.run(TOKEN)
