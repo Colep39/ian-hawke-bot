@@ -13,6 +13,7 @@ TOKEN = os.getenv("DISCORD_TOKEN")
 SERVER_ID = int(os.getenv("AI_SERVER_ID"))
 USER_ID = int(os.getenv("SAM_USER_ID"))
 GENERAL_CHANNEL_ID = int(os.getenv("GENERAL_CHANNEL_ID"))
+JESTER_ID = int(os.getenv("JESTER_USER_ID"))
 
 BOT_VERSION = "1.2.2"
 START_TIME = datetime.datetime.now(datetime.timezone.utc)
@@ -29,7 +30,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 # we don't want keyword spam, so we set a cooldown
 KEYWORD_COOLDOWNS = {}
-COOLDOWN_SECONDS = 30
+COOLDOWN_SECONDS = 10
 
 KEYWORD_RESPONSES = {
     "automata": "Those Who Freak Das",
@@ -77,7 +78,7 @@ async def on_ready():
     await bot.change_presence(
         activity=discord.Activity(
             type=discord.ActivityType.watching,
-            name=f"Automata | v{BOT_VERSION}",
+            name=f"v{BOT_VERSION}",
         )
     )
 
@@ -154,7 +155,7 @@ async def on_message(message: discord.Message):
     content = message.content.lower()
     now = time.time()
 
-    # --- Target specific user responses (only ONE per message) ---
+    # targeting a specific user (we know who)
     if message.author.id == USER_ID:
         if "exam" in content:
             await message.channel.send("Sam will fail his exams lol")
@@ -168,8 +169,35 @@ async def on_message(message: discord.Message):
             await message.channel.send("Keep my sons name out of your mouth!")
             await bot.process_commands(message)
             return
+        elif "in class" in content:
+            await message.channel.send("Sams dog ate his in-class assignment")
+            await bot.process_commands(message)
+            return
+        elif "grade" in content:
+            await message.channel.send("Sam is racist")
+            await bot.process_commands(message)
+            return
+        elif "calculate" or "calculator" or "math" or "numbers" or "number" or "numerical" in content:
+            await message.channel.send("Sam wishes he could calculate those numbers like Santi does")
+            await bot.process_commands(message)
+            return
 
-    # --- Keyword responses with cooldown (only ONE per message) ---
+        
+    if message.author.id == JESTER_ID:
+        if "eick" in content:
+            await message.channel.send("Jester does not follow")
+            await bot.process_commands(message)
+            return
+        elif "sam" in content:
+            await message.channel.send("Jester is a simp for Sam")
+            await bot.process_commands(message)
+            return
+        elif "cole" in content:
+            await message.channel.send("Jester wishes he was Cole")
+            await bot.process_commansd(message)
+            return
+    
+    # keyword responses with cooldown
     for keyword, response in KEYWORD_RESPONSES.items():
         if keyword in content:
             last_used = KEYWORD_COOLDOWNS.get(keyword, 0)
