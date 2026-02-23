@@ -177,7 +177,7 @@ async def on_message(message: discord.Message):
             await message.channel.send("Sam is racist")
             await bot.process_commands(message)
             return
-        elif "calculate" or "calculator" or "math" or "numbers" or "number" or "numerical" in content:
+        elif any(word in content for word in ["calculate", "calculator", "math", "numbers", "number", "numerical"]):
             await message.channel.send("Sam wishes he could calculate those numbers like Santi does")
             await bot.process_commands(message)
             return
