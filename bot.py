@@ -169,10 +169,6 @@ async def on_message(message: discord.Message):
             await message.channel.send("Keep my sons name out of your mouth!")
             await bot.process_commands(message)
             return
-        elif "in class" in content:
-            await message.channel.send("Sams dog ate his in-class assignment")
-            await bot.process_commands(message)
-            return
         elif "grade" in content:
             await message.channel.send("Sam is racist")
             await bot.process_commands(message)
