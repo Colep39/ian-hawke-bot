@@ -36,12 +36,13 @@ KEYWORD_RESPONSES = {
     "automata": "Those Who Freak Das",
     "3340": "Those Who Freak Das",
     "haul": "how about you haul yourself some bitches",
-    "cs": "bingo bango bongo, bish bash bosh",
+    "67": "bingo bango bongo, bish bash bosh",
     "john": "those who John Barnes",
     "barnes": "those who John Barnes",
     "follow": "those who follow",
     "everybody follows": "those who follow",
     "database": "Uma my beloved",
+    "attendance": "This place is empty, just like Sam's soul",
 }
 
 # --- single-message reply guard (helps prevent accidental double sends per message) ---
