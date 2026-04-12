@@ -35,7 +35,6 @@ COOLDOWN_SECONDS = 10
 KEYWORD_RESPONSES = {
     "automata": "Those Who Freak Das",
     "3340": "Those Who Freak Das",
-    "haul": "how about you haul yourself some bitches",
     "67": "bingo bango bongo, bish bash bosh",
     "john": "those who John Barnes",
     "barnes": "those who John Barnes",
@@ -43,6 +42,7 @@ KEYWORD_RESPONSES = {
     "everybody follows": "those who follow",
     "database": "Uma my beloved",
     "attendance": "This place is empty, just like Sam's soul",
+    "graduation": "Congrats to those graduating this semester!",
 }
 
 # --- single-message reply guard (helps prevent accidental double sends per message) ---
@@ -172,6 +172,10 @@ async def on_message(message: discord.Message):
             return
         elif any(word in content for word in ["calculate", "calculator", "math", "numbers", "number", "numerical"]):
             await message.channel.send("Sam wishes he could calculate those numbers like Santi does")
+            await bot.process_commands(message)
+            return
+        elif any(word in content for word in ["graduation", "graduate", "graduating", "grad", "graduated"]):
+            await message.channel.send("Sam will never graduate, he's too busy simping for Santi")
             await bot.process_commands(message)
             return
 
